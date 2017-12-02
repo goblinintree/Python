@@ -16,20 +16,24 @@ Including another URLconf
 from django.conf.urls import url
 from django.views.generic.base import RedirectView
 from django.contrib import admin
+from django.views.generic import TemplateView
 
+from mysite import view_book,views
 
-from mysite.views.view_hello import *
-from mysite.views.view_time import *
-from mysite.views.view_home import *
-from mysite.views.view_404 import *
 
 
 urlpatterns = [
-    url(r'^$', my_home_page),
+    # url(r'^$', views.my_home_page),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
+    url(r'^api/add_book$', view_book.add_book),
+    url(r'^api/show_books$', view_book.show_books),
+    url(r'^html/(\w+)\.html$', views.visit_html),
     url(r'^favicon.ico$',RedirectView.as_view(url=r'/static/favicon.ico',permanent=True)),
     url(r'^admin/', admin.site.urls),
-    url(r'^hello/$', hello),
-    url(r'^hello/(\w+)/$', hello_name),
-    url(r'^now/$', current_time),
-    url(r'^', found_404),
+    url(r'^hello/$', views.hello),
+    url(r'^hello/(\w+)/$', views.hello_name),
+    url(r'^now/$', views.current_time),
+
+
+    url(r'^', views.found_404),
 ]
